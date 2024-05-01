@@ -1,8 +1,17 @@
 package org.bank.dao;
 
-import java.util.List;
+import org.bank.entities.Account;
+
+import java.util.Map;
 
 public interface AccountsDao {
-    public List<Integer> getAccountByUserName(int userName);
+    public Map<Integer, String> getAccountByUserName(int userName);
+
     public int updateUser(int id, double balance);
+
+    public int createAnAccount(int user_id, String account_type, double balance);
+
+    public Account getAccountById(int accountId);
+
+    public void updateAccountBalance(Account account);
 }

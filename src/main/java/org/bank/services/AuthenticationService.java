@@ -7,97 +7,38 @@ import java.util.*;
 
 
 public class AuthenticationService {
+    Scanner scanner = new Scanner(System.in);
     public void signup() {
-        Scanner scanner = new Scanner(System.in);
+
 
         System.out.println("Enter the first name");
-        String firstName = scanner.nextLine();
+        String firstName =getStringValue();
 
         System.out.println("Enter the last name");
-        String lastName = scanner.nextLine();
+        String lastName = getStringValue();
 
         System.out.println("Enter the address");
-        String address = scanner.nextLine();
+        String address = getStringValue();
 
-        System.out.println("Enter phone number. eg. (571)213-2345");
         String phoneNumber = setPhone(scanner);
 
-        System.out.println("Enter the valid email=. eg. abc@gmail.com");
         String email = setEmail(scanner);
 
         String userName = getUserName();
 
         System.out.print("Enter password: ");
-        String password_hash = scanner.nextLine();
+        String password_hash = getStringValue();
 
         UserDaoImpl userDao = new UserDaoImpl();
         User user = new User(firstName, lastName, address, email, phoneNumber, userName, password_hash);
         int success = userDao.createUser(user);
         if (success == 0) {
             System.out.println("Signup successful!");
+            System.out.println();
             System.out.println("Please, login!!!");
         } else {
             System.out.println("Signup failed. Username might already be in use.");
         }
-    }
-
-    public void signupUpdate() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Enter the first name");
-        String firstName = scanner.nextLine();
-
-        System.out.println("Enter the last name");
-        String lastName = scanner.nextLine();
-
-        System.out.println("Enter the address");
-        String address = scanner.nextLine();
-
-        String phoneNumber = setPhone(scanner);
-
-        String email = setEmail(scanner);
-        System.out.print("Enter username: ");
-        String username = scanner.nextLine();
-
-        System.out.print("Enter password: ");
-        String password_hash = scanner.nextLine();
-
-        UserDaoImpl userDao = new UserDaoImpl();
-        User user = new User(firstName, lastName, address, email, phoneNumber, username, password_hash);
-
-        System.out.println("Enter Id");
-        int id = scanner.nextInt();
-
-        int success = userDao.updateUser(id, user);
-
-        if (success == 0) {
-            System.out.println("Signup successful!");
-        } else {
-            System.out.println("Signup failed. Username might already be in use.");
-        }
-    }
-
-    public void deleteUser() {
-        Scanner scanner = new Scanner(System.in);
-
-
-        UserDaoImpl userDao = new UserDaoImpl();
-
-        System.out.println("Enter Id");
-        int id = scanner.nextInt();
-
-        int success = userDao.deleteUser(id);
-
-        if (success == 0) {
-            System.out.println("Signup successful!");
-        } else {
-            System.out.println("Signup failed. Username might already be in use.");
-        }
-    }
-
-    public void getAllUsers() {
-        UserDaoImpl userDao = new UserDaoImpl();
-        System.out.println(userDao.getAllUser().toString());
     }
 
     public String setEmail(Scanner scanner) {
@@ -105,7 +46,7 @@ public class AuthenticationService {
         boolean valid = false;
         while (!valid){
             try {
-                System.out.println("Enter the email.");
+                System.out.println("Enter the valid email=. eg. abc@gmail.com");
                 email = scanner.nextLine();
 
                 if (!((email == null) && (email.equals("")))) {
@@ -124,7 +65,6 @@ public class AuthenticationService {
                         }
                     }
                 }
-                System.out.println("Enter the valid email.");
 
 
             } catch (IllegalArgumentException e) {
@@ -135,7 +75,6 @@ public class AuthenticationService {
         return email;
     }
 
-    // This is a helper Method to check if the passed string contains all numeric characters.
     public static boolean validIsDigit(String str) {
         for (int i = 0; i < str.length(); i++) {
             if (!Character.isDigit(str.charAt(i))) {
@@ -161,7 +100,7 @@ public class AuthenticationService {
         final int PHONE_LENGTH = 13;
         while (!valid) {
             try {
-                System.out.println("Enter the phone.");
+                System.out.println("Enter phone number. eg. (571)213-2345");
                 phone = scanner.nextLine();
                 if (phone.length() == PHONE_LENGTH) {
                     if (phone.charAt(0) == '(' && phone.charAt(4) == ')' && phone.charAt(8) == '-') {
@@ -199,8 +138,8 @@ public class AuthenticationService {
                     userNameList.add(user.getUsername());
                 }
                 if (userNameList.contains(username)) {
-                    System.out.println("User name " + username + "already exists.");
-                    System.out.println("Please enter different name");
+                    System.out.println("User name  " + username + " already exists.");
+                    System.out.println("Please enter different username");
                 } else {
                     validInput = true;
                 }
@@ -210,5 +149,26 @@ public class AuthenticationService {
             }
         }
         return username;
+    }
+    public static String getStringValue() {
+        Scanner scanner = new Scanner(System.in);
+        String input = "";
+        boolean validInput = false;
+        while (!validInput) {
+            try {
+                input = scanner.nextLine();
+
+                if(!input.equalsIgnoreCase("")){
+                    validInput = true;
+                }else{
+                    System.out.println("Filed can not be blank.");
+                    System.out.println("Please enter the value");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Filed can not be blank.");
+                scanner.next();
+            }
+        }
+        return input;
     }
 }

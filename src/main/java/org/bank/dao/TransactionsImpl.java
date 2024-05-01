@@ -5,7 +5,9 @@ import org.bank.util.SQLConnector;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionsImpl implements TransactionsDao {
@@ -30,8 +32,29 @@ public class TransactionsImpl implements TransactionsDao {
         return 0;
     }
 
-    @Override
-    public List<Transactions> getAllTransactions() {
-        return null;
+
+    public List<Transactions> getAllTransactions(int account_id) {
+
+        List<Transactions> transactions = new ArrayList<>();
+        String sql = "select account_id, transaction_type, amount, description from transactions where account_id = ?";
+        try (Connection con = SQLConnector.createConnection()) {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, account_id);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Transactions myTransaction = new Transactions();
+                myTransaction.setAccount_id(rs.getInt(1));
+                myTransaction.setTransaction_type(rs.getString(2));
+                myTransaction.setAmount(rs.getDouble(3));
+                myTransaction.setDescription(rs.getString(4));
+                transactions.add(myTransaction);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return transactions;
     }
+
 }

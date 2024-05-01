@@ -15,6 +15,10 @@ import static org.bank.controller.ControllerBankingApp.loginSuccessOptions;
 public class AccountsService {
     TransactionsImpl transactionsImpl = new TransactionsImpl();
     AccountsImpl accountsImpl = new AccountsImpl();
+    Scanner scanner = new Scanner(System.in);
+    AccountsImpl accounts = new AccountsImpl();
+    UserDaoImpl userDao = new UserDaoImpl();
+
 
     public void createAccounts(Login login) {
         int option = userAccountChoice();
@@ -38,8 +42,7 @@ public class AccountsService {
         }
     }
 
-    public static int userAccountChoice() {
-        Scanner scanner = new Scanner(System.in);
+    public int userAccountChoice() {
 
         final int MIN_OPTION = 1;
         final int MAX_OPTION = 3;
@@ -71,16 +74,13 @@ public class AccountsService {
     }
 
     public int createCheckingAccount(Login login) {
-        AccountsImpl accounts = new AccountsImpl();
-        UserDaoImpl userDao = new UserDaoImpl();
+
         User userByUserName = userDao.getUserByUserName(login.getUsername());
-        int checkingAccountCreatedStatus = accounts.createAnAccount(userByUserName.getUser_id(), "Checking", 0);
+        int checkingAccountCreatedStatus = accounts.createAnAccount(userByUserName.getUser_id(), "checking", 0);
         return checkingAccountCreatedStatus;
     }
 
     public void createSavingAccount(Login login) {
-        AccountsImpl accountsImpl = new AccountsImpl();
-        UserDaoImpl userDao = new UserDaoImpl();
         User userByUserName = userDao.getUserByUserName(login.getUsername());
         int savingAccountCreatedStatus = accountsImpl.createAnAccount(userByUserName.getUser_id(), "savings", 0);
         if (savingAccountCreatedStatus == 1) {
@@ -101,10 +101,11 @@ public class AccountsService {
     public void withdraw(int accountId, double amount, String depositDescription) {
         Account account = accountsImpl.getAccountById(accountId);
         if (account != null && amount > 0) {
-            System.out.println("Balance:" + account.getBalance());
-            if(amount<account.getBalance()) {
+            System.out.println("Before withdrawal balance:" + account.getBalance());
+            if(amount>account.getBalance()) {
                 System.out.println("Low balance: " + account.getBalance());
             }else{
+                System.out.println("After withdrawal balance:" + (account.getBalance()-amount));
                 account.withdraw(amount);
             }
             accountsImpl.updateAccountBalance(account);

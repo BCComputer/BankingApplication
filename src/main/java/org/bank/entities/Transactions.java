@@ -7,11 +7,16 @@ private String transaction_type;
 private double amount;
 private String description;
 
+
     public Transactions(int account_id, String transaction_type, double amount, String description) {
         this.account_id = account_id;
         this.transaction_type = transaction_type;
         this.amount = amount;
         this.description = description;
+    }
+
+    public Transactions() {
+
     }
 
     public int getAccount_id() {
@@ -52,7 +57,6 @@ private String description;
                 "account_id=" + account_id +
                 ", transaction_type='" + transaction_type + '\'' +
                 ", amount=" + amount +
-                ", description='" + description + '\'' +
-                '}';
+                ", description='" + description + '\''  + '}'+"\n";
     }
 }

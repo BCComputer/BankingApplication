@@ -1,7 +1,5 @@
 package org.bank.controller;
-import org.bank.dao.UserDaoImpl;
 import org.bank.entities.Login;
-import org.bank.entities.User;
 import org.bank.services.AccountsService;
 import org.bank.services.AuthenticationService;
 import org.bank.services.LoginService;
@@ -12,7 +10,16 @@ import java.util.Scanner;
 public class ControllerBankingApp {
 
     public static void main(String[] args) {
-        System.out.println("Welcome to the Banking App!!!");
+        System.out.println("***************************************************************************************");
+        System.out.println("***************************************************************************************");
+        System.out.println("***************************************************************************************");
+        System.out.println("***************************************************************************************");
+        System.out.println("*********************Welcome to the Banking App!!!*************************************");
+        System.out.println("***************************************************************************************");
+        System.out.println("***************************************************************************************");
+        System.out.println("***************************************************************************************");
+        System.out.println("***************************************************************************************");
+        System.out.println();
         int choice = userChoice();
         mainMenuChoice(choice);
     }
@@ -28,17 +35,12 @@ public class ControllerBankingApp {
                 break;
             case 2:
                 login = loginService.userLogin();
-                System.out.println("Signup Successful!!!");
+                System.out.println("Login Successful!!!");
                 loginSuccessOptions(login);
                 break;
             case 3:
-               login= loginService.AdminLogin();
-                System.out.println("Signup Successful!!!");
-                adminLoginSuccessOptions(login);
-
+                System.out.println("Thank You for visiting ABC Bank.");
                 break;
-            case 4:
-                System.out.println("Thank You for visiting.");
             default:
                 System.out.println("Please enter valid input");
         }
@@ -48,7 +50,7 @@ public class ControllerBankingApp {
         Scanner scanner = new Scanner(System.in);
 
         final int MIN_OPTION = 1;
-        final int MAX_OPTION = 4;
+        final int MAX_OPTION = 3;
         int menuChoice = -1;
         boolean validInput = false;
 
@@ -56,9 +58,8 @@ public class ControllerBankingApp {
             try {
                 System.out.println("Enter your selection:"
                         + "\n[1] SignUp"
-                        + "\n[2] Login as User"
-                        + "\n[3] Login as Admin"
-                        + "\n[4] Exit");
+                        + "\n[2] Login"
+                        + "\n[3] Log Out");
 
                 menuChoice = scanner.nextInt();
                 scanner.nextLine();
@@ -66,7 +67,7 @@ public class ControllerBankingApp {
                 if (menuChoice >= MIN_OPTION && menuChoice <= MAX_OPTION) {
                     validInput = true;
                 } else {
-                    System.out.println("Invalid choice. Please enter a number between 1 and 4.");
+                    System.out.println("Invalid choice. Please enter a number between 1 and 3.");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a valid number.");
@@ -82,6 +83,7 @@ public class ControllerBankingApp {
         TransactionService transactionService = new TransactionService();
         if (login != null) {
             System.out.println("Welcome to ABC Bank");
+            System.out.println();
             switch (loginService.userChoice()) {
                 case 1:
                     accountsService.createAccounts(login);
@@ -91,41 +93,19 @@ public class ControllerBankingApp {
                     break;
                 case 3:
                     transactionService.withdraw(login);
-                    break;
-                default:
-                    System.out.println("Thank you");
-            }
-        }
-    }
-
-    public static void adminLoginSuccessOptions(Login  login) {
-        AccountsService accountsService = new AccountsService();
-        LoginService loginService = new LoginService();
-        UserDaoImpl userDao = new UserDaoImpl();
-        if (login != null) {
-            System.out.println("Welcome to ABC Bank Admin Page");
-            User user = userDao.getUserByUserName(login.getUsername());
-            switch (loginService.adminUserChoice()) {
-                case 1:
-                    accountsService.createAccounts(login);
-                    break;
-                case 2:
-
-                    userDao.updateUser(user.getUser_id(), user);
-                    break;
-                case 3:
-                    userDao.deleteUser(user.getUser_id());
+                    loginSuccessOptions(login);
                     break;
                 case 4:
-                    System.out.println(user.toString());
-                    break;
-                case 5:
-                    loginService.adminUserChoice();
+                    transactionService.getAllTransaction(login);
+                    loginService.userChoice();
                     break;
                 default:
-                    System.out.println("Thank you");
+
+                    System.out.println("Thank you for choosing ABC Bank");
+                    System.out.println();
             }
         }
     }
+
 }
 

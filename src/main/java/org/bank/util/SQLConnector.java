@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 public class SQLConnector {
     public static Connection createConnection(){
+
         Connection con=null;
         final String USERNAME= "root";
         final String PASSWORD = "1234";

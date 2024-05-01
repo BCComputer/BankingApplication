@@ -66,4 +66,13 @@ public class Account {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "Account{" +
+                "accountId=" + accountId +
+                ", userId=" + userId +
+                ", accountType='" + accountType + '\'' +
+                ", balance=" + balance +
+                '}'+"\n";
+    }
 }

@@ -4,8 +4,8 @@ import org.bank.entities.Account;
 import org.bank.util.SQLConnector;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AccountsImpl implements AccountsDao{
     public int createAnAccount(int user_id, String account_type, double balance) {
@@ -28,20 +28,20 @@ public class AccountsImpl implements AccountsDao{
         return status;
     }
 
-    public List<Integer> getAccountByUserName(int userId) {
-        List<Integer> myList = new ArrayList<>();
+    public Map<Integer, String> getAccountByUserName(int userId) {
+        Map<Integer, String> myList = new HashMap<>();
         try (Connection con = SQLConnector.createConnection()) {
-
-            String sql = " select*from accounts where user_id = ?";
+            String sql = "select account_id, account_type from accounts where user_id=?";
 
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.setInt(1, userId);
 
             ResultSet resultData = preparedStatement.executeQuery();
-            while (resultData.next()) {
-                myList.add(resultData.getInt(1));
 
+            while (resultData.next()) {
+                myList.put(resultData.getInt(1), resultData.getNString(2));
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface TransactionsDao {
     int deposit(Transactions transactions);
-    public List<Transactions> getAllTransactions();
+    public List<Transactions> getAllTransactions(int accountId);
 }

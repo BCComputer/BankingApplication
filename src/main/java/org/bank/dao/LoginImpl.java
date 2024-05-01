@@ -19,8 +19,9 @@ public class LoginImpl {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String passwordHash = resultSet.getString("password_hash");
+                int user_id = resultSet.getInt(1);
                 if (passwordHash.equals(password)) {
-                    return new Login(username, passwordHash, true);
+                    return new Login(user_id, username, passwordHash, true);
                 } else {
                     return null;
                 }

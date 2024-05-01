@@ -6,7 +6,8 @@ public class Login {
     private String passwordHash;
     private boolean isLogin = false;
 
-    public Login(String username, String passwordHash, Boolean isLogin) {
+    public Login(int userId, String username, String passwordHash, Boolean isLogin) {
+        this.userId = userId;
         this.username = username;
         this.passwordHash = passwordHash;
         this.isLogin=isLogin;
@@ -52,6 +53,6 @@ public class Login {
                 ", username='" + username + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
                 ", isLogin=" + isLogin +
-                '}';
+                '}'+"\n";
     }
 }
