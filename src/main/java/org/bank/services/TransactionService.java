@@ -34,8 +34,7 @@ public class TransactionService {
 
             double depositAmount = getDepositAmount();
 
-            System.out.print("Enter the description : ");
-
+            System.out.println("Enter the description: ");
             String depositDescription = getStringValue();
 
             accountsService.deposit(accountId, depositAmount, depositDescription);
@@ -55,7 +54,7 @@ public class TransactionService {
             int accountId = getAccountId();
 
             double depositAmount = getDepositAmount();
-
+            System.out.println();
             System.out.print("Enter the deposit description: ");
             String depositDescription = getStringValue();
 
@@ -153,7 +152,7 @@ public class TransactionService {
             try {
                 System.out.print("Enter withdraw amount: ");
                 amount =scanner.nextDouble();
-
+                scanner.nextLine();
 
                 if (amount != 0) {
                     validInput = true;
@@ -163,7 +162,6 @@ public class TransactionService {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Please enter the number");
-                scanner.next();
             }
         }
         return amount;
@@ -176,12 +174,12 @@ public class TransactionService {
             try {
                 System.out.print("Enter deposit amount: ");
                 amount = scanner.nextDouble();
+                scanner.nextLine();
 
                 if (amount != 0) {
                     validInput = true;
                 } else {
                     System.out.println("Please enter the number.");
-
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Please enter the number");
