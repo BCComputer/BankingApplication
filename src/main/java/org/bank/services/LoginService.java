@@ -18,12 +18,12 @@ public class LoginService {
         boolean isValidLogin = false;
         while (!isValidLogin) {
             try {
-                System.out.println("Enter the username");
+                System.out.print("Enter the username: ");
                 String userName = scanner.nextLine();
 
-                System.out.println("Enter the password");
+                System.out.print("Enter the password: ");
                 String password = scanner.nextLine();
-                List<User> allUser = userDao.getAllUser();
+                List<User> allUser = userDao.getAllUser(); //called getAllUser()
                 for (User user : allUser) {
                     userPasswordList.put(user.getUsername(), user.getPassword_hash());
                 }
@@ -70,7 +70,6 @@ public class LoginService {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a valid number.");
-                scanner.next();
             }
         }
         return menuChoice;

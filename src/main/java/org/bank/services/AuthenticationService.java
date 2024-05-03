@@ -10,14 +10,13 @@ public class AuthenticationService {
     Scanner scanner = new Scanner(System.in);
     public void signup() {
 
-
-        System.out.println("Enter the first name");
+        System.out.print("Enter the first name: ");
         String firstName =getStringValue();
 
-        System.out.println("Enter the last name");
+        System.out.print ("Enter the last name: ");
         String lastName = getStringValue();
 
-        System.out.println("Enter the address");
+        System.out.print("Enter the address: ");
         String address = getStringValue();
 
         String phoneNumber = setPhone(scanner);
@@ -30,8 +29,8 @@ public class AuthenticationService {
         String password_hash = getStringValue();
 
         UserDaoImpl userDao = new UserDaoImpl();
-        User user = new User(firstName, lastName, address, email, phoneNumber, userName, password_hash);
-        int success = userDao.createUser(user);
+        User user = new User(firstName, lastName, address, email, phoneNumber, userName, password_hash); // constructor used.
+        int success = userDao.createUser(user); //Called createUser(user) function.
         if (success == 0) {
             System.out.println("Signup successful!");
             System.out.println();
@@ -46,7 +45,7 @@ public class AuthenticationService {
         boolean valid = false;
         while (!valid){
             try {
-                System.out.println("Enter the valid email=. eg. abc@gmail.com");
+                System.out.print("Enter the valid email. eg. abc@gmail.com : " );
                 email = scanner.nextLine();
 
                 if (!((email == null) && (email.equals("")))) {
@@ -68,7 +67,7 @@ public class AuthenticationService {
 
 
             } catch (IllegalArgumentException e) {
-                System.out.println("Invalid email.");
+                System.out.println("Invalid email. please  enter valid email.");
             }
         }
 
@@ -123,15 +122,14 @@ public class AuthenticationService {
         return phone;
     }
 
-    public static String getUserName() {
-        Scanner scanner = new Scanner(System.in);
+    public String getUserName() {
         String username = "";
         boolean validInput = false;
         List<String> userNameList = new ArrayList<>();
 
         while (!validInput) {
             try {
-                System.out.println("Enter the username");
+                System.out.print("Enter the username : ");
                 username = scanner.nextLine();
                 UserDaoImpl userDao = new UserDaoImpl();
                 for (User user : userDao.getAllUser()) {
@@ -139,19 +137,18 @@ public class AuthenticationService {
                 }
                 if (userNameList.contains(username)) {
                     System.out.println("User name  " + username + " already exists.");
-                    System.out.println("Please enter different username");
-                } else {
+                    System.out.print("Please enter different username : ");
+                } else if(!username.isEmpty()) {
                     validInput = true;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Enter Valid userName");
+                System.out.println("Enter Valid userName.");
                 scanner.next();
             }
         }
         return username;
     }
-    public static String getStringValue() {
-        Scanner scanner = new Scanner(System.in);
+    public String getStringValue() {
         String input = "";
         boolean validInput = false;
         while (!validInput) {
@@ -166,7 +163,7 @@ public class AuthenticationService {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Filed can not be blank.");
-                scanner.next();
+
             }
         }
         return input;

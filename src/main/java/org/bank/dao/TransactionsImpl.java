@@ -27,12 +27,6 @@ public class TransactionsImpl implements TransactionsDao {
         }
     }
 
-    @Override
-    public int deposit(Transactions transactions) {
-        return 0;
-    }
-
-
     public List<Transactions> getAllTransactions(int account_id) {
 
         List<Transactions> transactions = new ArrayList<>();

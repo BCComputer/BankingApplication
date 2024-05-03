@@ -58,14 +58,6 @@ public class Account {
         return false;
     }
 
-    public boolean transfer(Account targetAccount, double amount) {
-        if (this.withdraw(amount)) {
-            targetAccount.deposit(amount);
-            return true;
-        }
-        return false;
-    }
-
     @Override
     public String toString() {
         return "Account{" +

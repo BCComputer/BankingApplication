@@ -15,7 +15,7 @@ public class TransactionService {
     Scanner scanner = new Scanner(System.in);
     TransactionsImpl transactions = new TransactionsImpl();
 
-    public void createDepositOptions(Login login) {
+    public void createDepositForAccount(Login login) {
 
         int option = userDepositChoice();
         boolean isValid = false;
@@ -28,18 +28,16 @@ public class TransactionService {
                     idList.add(entry.getKey());
                 }
             }
-
             System.out.println("Checking Account Id :" + idList.toString());
 
-            System.out.println("Enter the account Id.");
-            int accountId = scanner.nextInt();
-            scanner.nextLine();
+            int accountId = getAccountId();
 
-            System.out.println("Enter the deposit amount.");
-            double depositAmount = scanner.nextDouble();
-            scanner.nextLine();
-            System.out.println("Enter the deposit description");
-            String depositDescription = scanner.nextLine();
+            double depositAmount = getDepositAmount();
+
+            System.out.print("Enter the description : ");
+
+            String depositDescription = getStringValue();
+
             accountsService.deposit(accountId, depositAmount, depositDescription);
             loginSuccessOptions(login);
 
@@ -54,14 +52,13 @@ public class TransactionService {
 
             System.out.println("Saving Account Ids :" + idList.toString());
 
-            System.out.println("Enter the account Id.");
-            int accountId = scanner.nextInt();
-            scanner.nextLine();
-            System.out.println("Enter the deposit amount.");
-            double depositAmount = scanner.nextDouble();
-            scanner.nextLine();
-            System.out.println("Enter the deposit description");
-            String depositDescription = scanner.nextLine();
+            int accountId = getAccountId();
+
+            double depositAmount = getDepositAmount();
+
+            System.out.print("Enter the deposit description: ");
+            String depositDescription = getStringValue();
+
             accountsService.deposit(accountId, depositAmount, depositDescription);
             loginSuccessOptions(login);
         } else {
@@ -77,9 +74,8 @@ public class TransactionService {
         int accountId = getAccountId();
         double withDrawAmount = getWithDrawAmount();
 
-        System.out.println("Enter the withdraw description");
-        String description = scanner.nextLine();
-
+        System.out.print("Enter the withdraw description: ");
+        String description = getStringValue();
         accountsService.withdraw(accountId, withDrawAmount, description);
     }
 
@@ -102,7 +98,7 @@ public class TransactionService {
                 if (menuChoice >= MIN_OPTION && menuChoice <= MAX_OPTION) {
                     validInput = true;
                 } else {
-                    System.out.println("Invalid choice. Please enter a number between 1 and 3.");
+                    System.out.print("Invalid choice. Please enter a number between 1 and 3.: ");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a valid number.");
@@ -117,11 +113,11 @@ public class TransactionService {
         Map<Integer, String> accountIdList = accounts.getAccountByUserName(login.getUserId());
         System.out.println(accountIdList.toString());
         int accountId = getAccountId();
-        scanner.nextLine();
+
         List<Transactions> allTransactions = transactions.getAllTransactions(accountId);
-        if(allTransactions!=null) {
+        if (allTransactions != null) {
             System.out.println(allTransactions.toString());
-        }else{
+        } else {
             System.out.println("There is no transaction.");
         }
 
@@ -132,11 +128,10 @@ public class TransactionService {
         boolean validInput = false;
         while (!validInput) {
             try {
-                System.out.println("Enter account Id");
+                System.out.print("Enter account Id: ");
                 accountId = scanner.nextInt();
-                scanner.nextLine();
 
-                if (accountId != 0) {
+                if (accountId >= 0) {
                     validInput = true;
                 } else {
                     System.out.println("Please enter the number.");
@@ -149,14 +144,16 @@ public class TransactionService {
         }
         return accountId;
     }
+
+
     public double getWithDrawAmount() {
         double amount = 0;
         boolean validInput = false;
         while (!validInput) {
             try {
-                System.out.println("Enter withdraw amount");
-                amount = scanner.nextDouble();
-                scanner.nextLine();
+                System.out.print("Enter withdraw amount: ");
+                amount =scanner.nextDouble();
+
 
                 if (amount != 0) {
                     validInput = true;
@@ -166,9 +163,54 @@ public class TransactionService {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Please enter the number");
+                scanner.next();
             }
         }
         return amount;
     }
+
+    public double getDepositAmount() {
+        double amount = 0;
+        boolean validInput = false;
+        while (!validInput) {
+            try {
+                System.out.print("Enter deposit amount: ");
+                amount = scanner.nextDouble();
+
+                if (amount != 0) {
+                    validInput = true;
+                } else {
+                    System.out.println("Please enter the number.");
+
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter the number");
+
+            }
+        }
+        return amount;
+    }
+
+
+    public String getStringValue() {
+        String input = "";
+        boolean validInput = false;
+        while (!validInput) {
+            try {
+                input = scanner.nextLine();
+
+                if(!input.equalsIgnoreCase("")){
+                    validInput = true;
+                }else{
+                    System.out.println("Filed can not be blank.");
+                    System.out.println("Please enter the value");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Filed can not be blank.");
+            }
+        }
+        return input;
+    }
+
 
 }

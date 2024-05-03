@@ -1,9 +1,11 @@
 package org.bank.controller;
+
 import org.bank.entities.Login;
 import org.bank.services.AccountsService;
 import org.bank.services.AuthenticationService;
 import org.bank.services.LoginService;
 import org.bank.services.TransactionService;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -42,7 +44,7 @@ public class ControllerBankingApp {
                 System.out.println("Thank You for visiting ABC Bank.");
                 break;
             default:
-                System.out.println("Please enter valid input");
+                System.out.println("Please enter valid input.");
         }
     }
 
@@ -82,14 +84,15 @@ public class ControllerBankingApp {
         LoginService loginService = new LoginService();
         TransactionService transactionService = new TransactionService();
         if (login != null) {
-            System.out.println("Welcome to ABC Bank");
+            System.out.println("****  Welcome to ABC Bank   *****");
+            System.out.println();
             System.out.println();
             switch (loginService.userChoice()) {
                 case 1:
                     accountsService.createAccounts(login);
                     break;
                 case 2:
-                    transactionService.createDepositOptions(login);
+                    transactionService.createDepositForAccount(login);
                     break;
                 case 3:
                     transactionService.withdraw(login);
@@ -97,11 +100,13 @@ public class ControllerBankingApp {
                     break;
                 case 4:
                     transactionService.getAllTransaction(login);
-                    loginService.userChoice();
+                    loginSuccessOptions(login);
+                    break;
+                case 5:
+                    System.out.println("Thank you for choosing ABC Bank.");
                     break;
                 default:
-
-                    System.out.println("Thank you for choosing ABC Bank");
+                    System.out.println("Thank you for choosing ABC Bank.");
                     System.out.println();
             }
         }

@@ -37,7 +37,7 @@ alter table users auto_increment = 100;
 select*from users;
 select user_id, firstName, lastName, address, email, phonenumber, username, password_hash from users where username = "Bishnu";
 
-update users set firstName='asdf', lastName='asf', address='asfas', username='asd000fasd', password_hash='asfasdf' where user_id=100;
+update users set firstName='john', lastName='smith', address='123 New York', username='john20', password_hash='john232' where user_id=100;
 delete from users where user_id=104;
 
 -- delete from accounts where user_id=1;

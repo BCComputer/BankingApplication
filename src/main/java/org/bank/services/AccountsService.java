@@ -84,9 +84,9 @@ public class AccountsService {
         User userByUserName = userDao.getUserByUserName(login.getUsername());
         int savingAccountCreatedStatus = accountsImpl.createAnAccount(userByUserName.getUser_id(), "savings", 0);
         if (savingAccountCreatedStatus == 1) {
-            System.out.println("Account Created");
+            System.out.println("Account Created!!!");
         } else {
-            System.out.println("Fail to create account");
+            System.out.println("Fail to create account!");
         }
     }
 
@@ -101,11 +101,11 @@ public class AccountsService {
     public void withdraw(int accountId, double amount, String depositDescription) {
         Account account = accountsImpl.getAccountById(accountId);
         if (account != null && amount > 0) {
-            System.out.println("Before withdrawal balance:" + account.getBalance());
+            System.out.println("Before withdrawal balance : " + account.getBalance());
             if(amount>account.getBalance()) {
-                System.out.println("Low balance: " + account.getBalance());
+                System.out.println("Low balance : " + account.getBalance());
             }else{
-                System.out.println("After withdrawal balance:" + (account.getBalance()-amount));
+                System.out.println("After withdrawal balance : " + (account.getBalance()-amount));
                 account.withdraw(amount);
             }
             accountsImpl.updateAccountBalance(account);
